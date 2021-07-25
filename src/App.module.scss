@@ -1,0 +1,21 @@
+﻿@import "./variables";
+
+.root {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.params {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 5px 10px;
+  font-size: 13px;
+}
