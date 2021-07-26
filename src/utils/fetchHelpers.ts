@@ -35,9 +35,15 @@ export default async (city: string | null):Promise<WeatherResult> => {
     }else {
         URL = `${WEATHER_BASE}&q=${city}`;
     }
-
-    const weatherData = await fetch(URL).then(data => data.json()).then(result => result);
-    const weatherResult = getWeatherData(weatherData);
-    return weatherResult;
+    
+    let weatherData = await fetch(URL).then(data => {
+        if(data.ok) {
+            return data.json();
+        }
+        throw new Error('City not found');
+    }).then(result => result);
+    
+    return getWeatherData(weatherData);
+    
 }
 

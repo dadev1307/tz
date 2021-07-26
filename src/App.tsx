@@ -11,8 +11,9 @@ const App = () => {
   const [wither, setWither] = useState<WeatherResult|null>(null);
 
   useEffect(() => {
-    console.log(storage)
-    getCityWeather(null).then(w => setWither(w));
+    getCityWeather('gdfgfgf').then(w => setWither(w)).catch(e => {
+        console.log(e);
+    });
   },[])
 
   return (
