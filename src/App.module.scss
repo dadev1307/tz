@@ -1,21 +1,192 @@
 ﻿@import "./variables";
 
 .root {
-  max-width: 400px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  min-width: 320px;
+  max-width: 440px;
+  color: #fff;
+}
+
+.countCity {
+  margin-bottom: 25px;
+  display: block;
 }
 
 .wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-width: 320px;
+  position: relative;
+  align-self: flex-start;
+  border-radius: 50px;
+  padding: 33px 30px 17px 30px;
+  &:before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    border-radius: 50px;
+    background: linear-gradient(135.39deg, rgba(15, 15, 15, 0.35) 12.49%, rgba(15, 15, 15, 0) 104.06%);
+  }
+  &:after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    border-radius: 50px;
+    background: linear-gradient(135.39deg, rgba(15, 15, 15, 0.6) 12.49%, rgba(15, 15, 15, 0) 104.06%);
+    filter: blur(4px);
+  }
+  &.test {
+    &:after,&:before {
+      content: none;
+      display: none;
+    }
+    background: linear-gradient(135.39deg, rgba(15, 15, 15, 0.7) 12.49%, rgba(15, 15, 15, 0) 104.06%);
+  }
 }
 
-.params {
+.withers {
+  display: block;
+}
+
+.wither {
+  display: flex;
+  position: relative;
+  &:not(:last-child) {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    &:after {
+      content: '';
+      position: absolute;
+      display: block;
+      height: 1px;
+      width: 80%;
+      bottom: 0;
+      background: #fff;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.3;
+      z-index: 4;
+    }
+  }
+}
+
+.witherMain {
+  display: block;
+}
+
+.city {
+  font-size: 16px;
+  line-height: 19px;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.icon {
+  display: block;
+}
+
+.sky {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 5px 10px;
-  font-size: 13px;
+  grid-template-columns: auto auto;
+  grid-template-rows: 24px;
+  grid-row-gap: 4px;
+  grid-column-gap: 20px;
+}
+
+.skyName {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.skyTemp {
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 73px;
+}
+
+.skyImage {
+  display: block;
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+
+.witherAdditions {
+  display: none;
+  align-self: flex-start;
+  padding: 12px 10px;
+  background: rgba(15,15,15,0.3);
+  border-radius: 20px;
+  margin: 0 auto;
+  &.active {
+    display: block;
+    margin: 0 33px;
+  }
+}
+
+.additionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+  span {
+    color: #fff;
+    font-size: 14px;
+    line-height: 17px;
+    opacity: 0.9;
+    &:first-child {
+      font-size: 11px;
+      line-height: 13px;
+      opacity: 0.6;
+    }
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.panel {
+  position: absolute;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 15px;
+  height: 100px;
+  background: #0F0F0F;
+  opacity: 0.4;
+  border-radius: 20px 0px 0px 20px;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.panelArrow {
+  display: block;
+}
+
+.settings {
+  position: absolute;
+  top: 33px;
+  right: 30px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  z-index: 5;
+  fill: #fff;
+  opacity: 0.8;
+  &:hover {
+    color: #dd2d24;
+  }
 }
