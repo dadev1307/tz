@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default <T>(key: string) => {
+export default <T>(key = 'witherTest') => {
   const [storedValue, setStoreValue] = useState(() => {
     try {
       const item = window.localStorage.getItem(key);

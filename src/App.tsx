@@ -1,46 +1,37 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, {useEffect, useState} from 'react';
 import s from './App.module.scss';
-import getCityWeather from './utils/fetchHelpers';
+import {DisplayMode} from "./interface/displayMode";
+import {getGeoPosition} from "./utils/utils";
 import cn from 'classnames';
-import { WeatherResult } from './interface/weatherResult';
+import {WeatherResult} from './interface/weatherResult';
 import Rain from "./assets/rain.png";
-import Sun from "./assets/sun.png";
 import {ReactComponent as PanelArrow} from "./assets/arrow.svg";
 import {ReactComponent as Settings} from "./assets/settings.svg";
 import useLocalStorage from './hook/useLocalStorage';
+import Loader from "./components/Loader";
 
 const App = () => {
-
-  const [storage, setStorage] = useLocalStorage('wither');
+  const [settings, setSettings] = useLocalStorage();
   const [wither, setWither] = useState<WeatherResult|null>(null);
-  
   const [fullMode, setFullMode] = useState(false);
-  const [countCity, setCountCity] = useState(1);
-  
-  const handleFullMode = () => setFullMode(!fullMode);
-  const handleCountCity = (e:React.ChangeEvent<HTMLInputElement>) => setCountCity(+e.target.value);
-  
-  const repeatCity = () => {
-      const items = [];
-      for(let i = 1; i <= countCity; i++) {
-          items.push(i);
-      }
-      return items;
-  }
+  const [currentMode, setCurrentMode] = useState<DisplayMode>(DisplayMode.LOADER);
 
   useEffect(() => {
-    getCityWeather('gdfgfgf').then(w => setWither(w)).catch(e => {
-        console.log(e);
-    });
+      if(!settings) {
+          getGeoPosition().then(result => {
+              console.log('Ваше место положение', result);
+          }).catch((e)=>{
+              setCurrentMode(DisplayMode.SEARCH);
+          });
+      }
   },[]);
   
   return (
       <div className={s.root}>
-          <input type="number" className={s.countCity} placeholder='Сколько городов вывести' value={countCity} onChange={handleCountCity} />
+          <Loader />
           <div className={cn(s.wrapper, s.test)}>
               <div className={s.withers}>
-                  {repeatCity().map(item => 
-                    <article className={s.wither}>
+                  <article className={s.wither}>
                       <div className={s.witherMain}>
                           <p className={s.city}>
                               <span className={s.icon}></span>
@@ -67,9 +58,8 @@ const App = () => {
                           </div>
                       </div>
                   </article>
-                  )}
               </div>
-              <div className={s.panel} onClick={handleFullMode}>
+              <div className={s.panel}>
                   <PanelArrow className={s.panelArrow} />
               </div>
               <Settings className={s.settings} />

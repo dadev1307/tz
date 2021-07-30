@@ -1,6 +1,6 @@
 import {WeatherData} from '../interface/weatherData';
 import {WeatherResult} from '../interface/weatherResult';
-import { getGeoPosition, meterToKilometer } from './utils';
+import { meterToKilometer } from './utils';
 
 const WEATHER_BASE = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=92a5e3077a957bda5e2ec140dfdef682';
 const WEATHER_ICON_BASE = 'https://openweathermap.org/img/wn';
@@ -28,13 +28,6 @@ function getWeatherData(data: WeatherData):WeatherResult {
 
 export default async (city: string | null):Promise<WeatherResult> => {
     let URL = WEATHER_BASE;
-
-    if(!city) {
-        const geoPosition = await getGeoPosition();
-        URL = `${URL}&lat=${geoPosition.coords.latitude}&lon=${geoPosition.coords.longitude}`;
-    }else {
-        URL = `${WEATHER_BASE}&q=${city}`;
-    }
     
     let weatherData = await fetch(URL).then(data => {
         if(data.ok) {
