@@ -1,6 +1,6 @@
 ﻿export enum DisplayMode {
     'LOADER',
-    'SEARCH',
-    'WEATHER',
+    'SEARCH' ,
+    'WEATHERS',
     'SETTINGS'
 }

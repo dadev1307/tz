@@ -7,10 +7,11 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   mode: NODE_ENV ? NODE_ENV : 'development',
-  entry: [path.resolve(__dirname, 'src/polyfill/custom-elements-es5-adapter.js'), path.resolve(__dirname, 'src/index.tsx')],
+  entry:[path.resolve(__dirname, 'src/polyfill/custom-elements-es5-adapter.js'), path.resolve(__dirname, 'src/index.tsx')],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: '[name].js',
+    chunkFilename: '[name].bundle.js',
   },
   watch: true,
   watchOptions: {
@@ -20,9 +21,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.[tj]sx?$/,
+        test: /\.(js|jsx)$/,
+        exclude: [/node_modules/, /custom-elements-es5-adapter.js/],
+        use: ["babel-loader"],
+      },
+      {
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ['ts-loader'],
+        use: ["ts-loader"],
       },
       {
         test: /\.css$/,
@@ -64,7 +70,7 @@ module.exports = {
       },
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-        use: ['url-loader'],
+        use: ['file-loader'],
       },
     ],
   },
