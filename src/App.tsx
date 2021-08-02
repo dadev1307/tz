@@ -1,20 +1,23 @@
-﻿import React, { ChangeEvent, lazy, Suspense, useEffect, useState } from 'react';
+﻿import React, {lazy, Suspense, useEffect, useState} from 'react';
 import s from './App.module.scss';
-import { DisplayMode } from './interface/displayMode';
-import { getGeoPosition } from './utils/utils';
-import { WeatherResult } from './interface/weatherResult';
+import {DisplayMode} from './interface/displayMode';
+import {getGeoPosition} from './utils/utils';
+import {WeatherResult} from './interface/weatherResult';
+import {Error} from './interface/Error';
 import useLocalStorage from './hook/useLocalStorage';
-import Loader from './components/Loader';
+import Loader from "./components/Loader";
 
 const SearchCity = lazy(() => import('./components/SearchCity'));
 const Settings = lazy(() => import('./components/Settings'));
 const Weathers = lazy(() => import('./components/Weathers'));
+const ErrorModal = lazy(() => import('./components/ErrorModal'));
 
 const App = () => {
   const [settings, setSettings] = useLocalStorage();
   const [wither, setWither] = useState<WeatherResult | null>(null);
   const [fullMode, setFullMode] = useState(false);
   const [currentMode, setCurrentMode] = useState<DisplayMode>(DisplayMode.LOADER);
+  const [error, setError] = useState<Error | null>(null);
 
   const components = {
     [DisplayMode.LOADER]: Loader,
@@ -23,19 +26,21 @@ const App = () => {
     [DisplayMode.WEATHERS]: Weathers
   }
 
-  const handleMode = (ev:ChangeEvent<HTMLInputElement>) => {
-    const mode:DisplayMode = +ev.target.value;
-    setCurrentMode(mode);
-  }
-
   useEffect(() => {
     if (!settings) {
       getGeoPosition().then(result => {
         setCurrentMode(DisplayMode.WEATHERS);
-        setSettings(result);
-        console.log('Ваше место положение', result);
       }).catch((e) => {
-        setCurrentMode(DisplayMode.SEARCH);
+        setError({
+          icon: 'warning',
+          title: 'Не удалось определить местоположение',
+          text: 'Пожалуйста введите город вручную',
+          btnText: 'Ввести',
+          handleError: () => {
+            setError(null);
+            setCurrentMode(DisplayMode.SEARCH);
+          }
+        })
       });
     }
 
@@ -46,9 +51,11 @@ const App = () => {
 
   return (
     <Suspense fallback={<Loader />}>
-      <input type='number' onChange={handleMode}/>
       <div className={s.root}>
-        {React.createElement(components[currentMode])}
+        { error && <ErrorModal error={error}  /> }
+        {React.createElement(components[currentMode], {
+          showSettings(){setCurrentMode(DisplayMode.SETTINGS)}
+        })}
       </div>
     </Suspense>
   );

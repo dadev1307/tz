@@ -1,10 +1,14 @@
 import React from 'react';
 import s from './Weathers.module.scss';
 
+interface IWeathers {
+    classname?: string,
+    showSettings: () => void,
+}
 
-const Weathers = () => {
+const Weathers:React.FC<IWeathers> = ({showSettings}) => {
   return (
-    <div className={s.root}>
+    <div className={s.root} onClick={showSettings}>
       Weathers
     </div>
   );

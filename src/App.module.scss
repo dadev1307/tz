@@ -1,11 +1,12 @@
 ﻿@import "./variables";
 
 .root {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   min-width: 320px;
   max-width: 440px;
   color: #fff;
+  position: relative;
 }
 
 .countCity {
