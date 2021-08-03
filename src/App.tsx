@@ -21,7 +21,7 @@ const App = () => {
 
   const components = {
     [DisplayMode.LOADER]: Loader,
-    [DisplayMode.SEARCH]: SearchCity,
+    [DisplayMode.SEARCH]: SearchCity, 
     [DisplayMode.SETTINGS]: Settings,
     [DisplayMode.WEATHERS]: Weathers
   }

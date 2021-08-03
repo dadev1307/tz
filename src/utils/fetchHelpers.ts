@@ -2,27 +2,16 @@ import {WeatherData} from '../interface/weatherData';
 import {WeatherResult} from '../interface/weatherResult';
 import { meterToKilometer } from './utils';
 
-const WEATHER_BASE = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=92a5e3077a957bda5e2ec140dfdef682';
-const WEATHER_ICON_BASE = 'https://openweathermap.org/img/wn';
+const WEATHER_BASE = 'http://api.weatherapi.com/v1/forecast.json';
+
+const KEY = '64150b20e9c7424794b90444212807';
+const SEARCH_BASE = 'http://api.weatherapi.com/v1/search.json';
 
 
 
-function getWeatherData(data: WeatherData):WeatherResult {
-    const result: WeatherResult = {
-        city: data.name,
-        country: data.sys.country,
-        iconName: data.weather[0].icon,
-        iconUrl: `${WEATHER_ICON_BASE}/${data.weather[0].icon}@2x.png`,
-        description: data.weather[0].description,
-        windDeg: data.wind.deg,
-        windSpeed: data.wind.speed,
-        temp: data.main.temp,
-        humidity: data.main.humidity,
-        pressure: data.main.pressure,
-        feelsLike: data.main.feels_like,
-        visibility: meterToKilometer(data.visibility)
-    }
-    return result;
+function AdapterWeatherDataToWeatherResult(data: WeatherData):WeatherResult {
+    const wr:WeatherResult = {};
+    wr.city = data.location.name;
 }
 
 
@@ -36,7 +25,7 @@ export default async (city: string | null):Promise<WeatherResult> => {
         throw new Error('City not found');
     }).then(result => result);
     
-    return getWeatherData(weatherData);
+    return AdapterWeatherDataToWeatherResult(weatherData);
     
 }
 

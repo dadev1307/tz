@@ -1,14 +1,34 @@
 export interface WeatherResult {
   city: string,
-  country: string,
-  iconName: string,
-  iconUrl: string,
-  description: string,
-  windDeg: number,
-  windSpeed: number,
-  temp: number,
+  tempC: number,
+  tempF: number,
+  condition: Condition,
+  wind: Wind,
+  preacure: Preacure,
   humidity: number,
-  pressure: number,
-  feelsLike: number,
-  visibility: number
+  hour: WeatherHour[]
+}
+
+interface Condition {
+  text: string,
+  code: number
+}
+
+interface Wind {
+  speedMeterPerSeconds: number,
+  speedKilometerPerHour: number,
+}
+
+interface Preacure {
+  milibars: number,
+  millimeter: number,
+  inches: number
+}
+
+interface WeatherHour {
+  time: string,
+  timeEpoch: number,
+  tempC: number,
+  tempF:number,
+  condition: Condition
 }
