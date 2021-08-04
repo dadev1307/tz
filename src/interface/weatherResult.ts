@@ -20,12 +20,12 @@ interface Wind {
 }
 
 interface Preacure {
-  milibars: number,
+  millibars: number,
   millimeter: number,
   inches: number
 }
 
-interface WeatherHour {
+export interface WeatherHour {
   time: string,
   timeEpoch: number,
   tempC: number,

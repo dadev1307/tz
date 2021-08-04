@@ -7,6 +7,7 @@ import {Error} from './interface/Error';
 import useLocalStorage from './hook/useLocalStorage';
 import Loader from "./components/Loader";
 
+
 const SearchCity = lazy(() => import('./components/SearchCity'));
 const Settings = lazy(() => import('./components/Settings'));
 const Weathers = lazy(() => import('./components/Weathers'));
@@ -15,9 +16,9 @@ const ErrorModal = lazy(() => import('./components/ErrorModal'));
 const App = () => {
   const [settings, setSettings] = useLocalStorage();
   const [wither, setWither] = useState<WeatherResult | null>(null);
-  const [fullMode, setFullMode] = useState(false);
   const [currentMode, setCurrentMode] = useState<DisplayMode>(DisplayMode.LOADER);
   const [error, setError] = useState<Error | null>(null);
+  
 
   const components = {
     [DisplayMode.LOADER]: Loader,
