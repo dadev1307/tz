@@ -42,6 +42,7 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
+              importLoaders: 1,
               modules: {
                 mode: 'local',
                 localIdentName: '[name]__[local]__[hash:base64:5]',
@@ -50,6 +51,14 @@ module.exports = {
             },
           },
           'sass-loader',
+          {
+            loader: "sass-resources-loader",
+            options: {
+              resources: [
+                path.resolve(__dirname, 'src/_variables.scss')
+              ]
+            }
+          }
         ],
       },
       {

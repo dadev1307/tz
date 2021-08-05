@@ -5,7 +5,7 @@ import {getGeoPosition} from './utils/utils';
 import {WeatherResult} from './interface/weatherResult';
 import {Error} from './interface/Error';
 import useLocalStorage from './hook/useLocalStorage';
-import Loader from "./components/Loader";
+import WindowLoader from "./components/WindowLoader";
 
 
 const SearchCity = lazy(() => import('./components/SearchCity'));
@@ -21,7 +21,7 @@ const App = () => {
   
 
   const components = {
-    [DisplayMode.LOADER]: Loader,
+    [DisplayMode.LOADER]: WindowLoader,
     [DisplayMode.SEARCH]: SearchCity, 
     [DisplayMode.SETTINGS]: Settings,
     [DisplayMode.WEATHERS]: Weathers
@@ -51,7 +51,7 @@ const App = () => {
   }, []);
 
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<WindowLoader />}>
       <div className={s.root}>
         { error && <ErrorModal error={error}  /> }
         {React.createElement(components[currentMode], {
