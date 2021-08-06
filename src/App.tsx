@@ -6,6 +6,7 @@ import {WeatherResult} from './interface/weatherResult';
 import {Error} from './interface/Error';
 import useLocalStorage from './hook/useLocalStorage';
 import WindowLoader from "./components/WindowLoader";
+import {ThemeProvider} from "./context/themeContext";
 
 
 const SearchCity = lazy(() => import('./components/SearchCity'));
@@ -14,52 +15,55 @@ const Weathers = lazy(() => import('./components/Weathers'));
 const ErrorModal = lazy(() => import('./components/ErrorModal'));
 
 const App = () => {
-  const [settings, setSettings] = useLocalStorage();
-  const [wither, setWither] = useState<WeatherResult | null>(null);
-  const [currentMode, setCurrentMode] = useState<DisplayMode>(DisplayMode.LOADER);
-  const [error, setError] = useState<Error | null>(null);
-  
+    const [settings, setSettings] = useLocalStorage();
+    const [wither, setWither] = useState<WeatherResult | null>(null);
+    const [currentMode, setCurrentMode] = useState<DisplayMode>(DisplayMode.LOADER);
+    const [error, setError] = useState<Error | null>(null);
 
-  const components = {
-    [DisplayMode.LOADER]: WindowLoader,
-    [DisplayMode.SEARCH]: SearchCity, 
-    [DisplayMode.SETTINGS]: Settings,
-    [DisplayMode.WEATHERS]: Weathers
-  }
-
-  useEffect(() => {
-    if (!settings) {
-      getGeoPosition().then(result => {
-        setCurrentMode(DisplayMode.WEATHERS);
-      }).catch((e) => {
-        setError({
-          icon: 'warning',
-          title: 'Не удалось определить местоположение',
-          text: 'Пожалуйста введите город вручную',
-          btnText: 'Ввести',
-          handleError: () => {
-            setError(null);
-            setCurrentMode(DisplayMode.SEARCH);
-          }
-        })
-      });
+    const components = {
+        [DisplayMode.LOADER]: WindowLoader,
+        [DisplayMode.SEARCH]: SearchCity,
+        [DisplayMode.SETTINGS]: Settings,
+        [DisplayMode.WEATHERS]: Weathers
     }
 
-    if(settings) {
-      setCurrentMode(DisplayMode.WEATHERS);
-    }
-  }, []);
+    useEffect(() => {
+        if (!settings) {
+            getGeoPosition().then(result => {
+                setCurrentMode(DisplayMode.WEATHERS);
+            }).catch((e) => {
+                setError({
+                    icon: 'warning',
+                    title: 'Не удалось определить местоположение',
+                    text: 'Пожалуйста введите город вручную',
+                    btnText: 'Ввести',
+                    handleError: () => {
+                        setError(null);
+                        setCurrentMode(DisplayMode.SEARCH);
+                    }
+                })
+            });
+        }
 
-  return (
-    <Suspense fallback={<WindowLoader />}>
-      <div className={s.root}>
-        { error && <ErrorModal error={error}  /> }
-        {React.createElement(components[currentMode], {
-          showSettings(){setCurrentMode(DisplayMode.SETTINGS)}
-        })}
-      </div>
-    </Suspense>
-  );
+        if (settings) {
+            setCurrentMode(DisplayMode.WEATHERS);
+        }
+    }, []);
+
+    return (
+        <ThemeProvider>
+            <Suspense fallback={<WindowLoader/>}>
+                <div className={s.root}>
+                    {error && <ErrorModal error={error}/>}
+                    {React.createElement(components[currentMode], {
+                        showSettings() {
+                            setCurrentMode(DisplayMode.SETTINGS)
+                        }
+                    })}
+                </div>
+            </Suspense>
+        </ThemeProvider>
+    );
 };
 
 export default App;

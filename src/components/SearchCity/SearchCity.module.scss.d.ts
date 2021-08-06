@@ -3,10 +3,15 @@
 interface CssExports {
   'active': string;
   'arrowRightSvg': string;
+  'blue': string;
+  'green': string;
   'input': string;
   'inputWrapper': string;
   'loader': string;
   'notFound': string;
+  'orange': string;
+  'purple': string;
+  'red': string;
   'resultList': string;
   'resultWrapper': string;
   'root': string;

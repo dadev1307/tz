@@ -27,9 +27,10 @@
   font-weight: 500;
   
   svg {
-    color: #349DEA;
+    color: map-get($colors, blue);
     margin-right: 4px;
     align-self: flex-start;
+    @include set-colors-theme;
   }
 }
 
@@ -40,7 +41,7 @@
   z-index: 3;
   &.active {
     .search {
-      border-bottom: 1px solid rgba(255,255,255, 0.1);
+      border-bottom: 1px solid $white01;
       margin-bottom: -1px;
     }
     border-radius: 20px 20px 0px 0px;

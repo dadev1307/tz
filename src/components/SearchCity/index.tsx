@@ -8,6 +8,7 @@ import {ReactComponent as ArrowSvg} from "./assets/arrow.svg";
 import {ReactComponent as SearchSvg} from "./assets/search.svg";
 import {ReactComponent as ArrowRightSvg} from "./assets/arrow-right.svg";
 import Loader from "../Loader";
+import {useTheme} from "../../context/themeContext";
 
 const SearchCity = () => {
     const [queryCity, setQueryCity] = useState<string>('');
@@ -15,6 +16,11 @@ const SearchCity = () => {
     const [isFocus, setIsFocus] = useState<boolean>(false);
     const [isLoader, setIsLoader] = useState<boolean>(true);
     const [selectedCity, setSelectedCity] = useState<SearchData|null|undefined>(null);
+
+    const {theme, setTheme, color} = useTheme();
+    
+    console.log(color);
+    
     useDebounce(queryCity, 500, () => {
         if(queryCity.length < 3) {
             setListQuery([]);
@@ -68,14 +74,14 @@ const SearchCity = () => {
 
             <div className={s.wrapper}>
                 <p className={s.title}>
-                    <ArrowSvg />
+                    <ArrowSvg className={cn([s[color]])} />
                     Введите регион
                 </p>
                 <div className={cn([s.inputWrapper, {[s.active]: isShowList}])}>
                     <div className={s.search}>
                         <SearchSvg className={cn([s.searchSvg,{[s.active]: isShowSearchSvg}])} />
                         <input className={s.input} type='text' value={queryCity} onInput={handleQueryCity} onFocus={focusInput} onBlur={blurInput}/>
-                        <ArrowRightSvg className={cn([s.arrowRightSvg, {[s.active]: isShowArrowRight}])} />
+                        <ArrowRightSvg className={cn([s.arrowRightSvg, {[s.active]: isShowArrowRight}])}  />
                     </div>
                     <div className={cn([s.resultWrapper, {[s.active]: isShowList}])}>
                         {showListByState()}

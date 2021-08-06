@@ -10,7 +10,7 @@ export default class MyWither extends HTMLElement {
   }
 
   connectedCallback() {
-    ReactDom.render(<App />, this)
+    ReactDom.render(<App />, this);
   }
 
   disconnectedCallback() {

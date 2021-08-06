@@ -3,13 +3,25 @@ $whiteMainBg: linear-gradient(119.73deg, #FFFFFF 10.57%, #F1F3F9 88.75%);
 
 
 $white: #fff;
-$white07: rgba(255,255,255, 0.7);
-$white05: rgba(255,255,255, 0.5);
-$white04: rgba(255,255,255, 0.4);
-$white01: rgba(255,255,255, 0.1);
+$white07: rgba(255, 255, 255, 0.7);
+$white05: rgba(255, 255, 255, 0.5);
+$white04: rgba(255, 255, 255, 0.4);
+$white01: rgba(255, 255, 255, 0.1);
 
 
+$colors: (
+        blue: #349DEA,
+        green: #13D386,
+        red: #F55C5C,
+        orange: #F06E18,
+        purple: #7F57F3,
+);
 
-$blue: #349DEA;
-
+@mixin set-colors-theme {
+  @each $key, $color in $colors {
+    &.#{""+$key} {
+      color: $color;
+    }
+  }
+}
 

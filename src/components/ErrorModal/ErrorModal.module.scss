@@ -16,6 +16,8 @@
 
 .icon {
   display: block;
+  color: map-get($colors, blue);
+  @include set-colors-theme;
 }
 
 .title {
