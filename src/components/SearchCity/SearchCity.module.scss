@@ -1,5 +1,6 @@
+@import 'src/variables';
 .root {
-  background: linear-gradient(119.73deg, #272B40 10.57%, #121420 88.75%);
+  background: $darkMainBg;
   border-radius: 30px;
   width: 360px;
   padding: 15px 20px;
@@ -27,7 +28,7 @@
   font-weight: 500;
   
   svg {
-    color: map-get($colors, blue);
+    color: blue;
     margin-right: 4px;
     align-self: flex-start;
     @include set-colors-theme;

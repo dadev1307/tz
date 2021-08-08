@@ -1,4 +1,5 @@
-﻿.root {
+﻿@import 'src/variables';
+.root {
   background: $darkMainBg;
   border-radius: 30px;
   height: 130px;

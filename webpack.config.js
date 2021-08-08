@@ -50,15 +50,22 @@ module.exports = {
               },
             },
           },
-          'sass-loader',
           {
-            loader: "sass-resources-loader",
+            loader: 'sass-loader',
             options: {
-              resources: [
-                path.resolve(__dirname, 'src/_variables.scss')
-              ]
-            }
-          }
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src/_variables.scss')],
+              }
+            },
+          },
+          // {
+          //   loader: "sass-resources-loader",
+          //   options: {
+          //     resources: [
+          //       path.resolve(__dirname, 'src/_variables.scss')
+          //     ]
+          //   }
+          // }
         ],
       },
       {

@@ -4,6 +4,7 @@ import s from './ErrorModal.module.scss';
 import {Error} from "../../interface/Error";
 import {ReactComponent as WarningSvg} from "./assets/warning.svg";
 import {ReactComponent as ErrorSvg} from "./assets/error.svg";
+import { useTheme } from '../../context/themeContext';
 
 
 interface IErrorModal {
@@ -19,7 +20,7 @@ const ErrorModal:React.FC<IErrorModal> = ({error, className}) => {
         btnText,
         handleError
     } = error;
-    
+    const {color, theme} = useTheme();
     const handleBtnClick = (e:React.MouseEvent<HTMLButtonElement>):void => {
         e.stopPropagation();
         handleError();
@@ -28,7 +29,7 @@ const ErrorModal:React.FC<IErrorModal> = ({error, className}) => {
     const getIconByName = (iconName: string) => {
         switch (iconName) {
             case 'warning':
-                return <WarningSvg className={cn(s.icon)} />;
+                return <WarningSvg className={cn([s.icon, s[color]])} />;
             case 'error':
                 return <ErrorSvg className={s.icon} />
             default:

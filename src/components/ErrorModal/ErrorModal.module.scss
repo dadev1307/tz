@@ -1,4 +1,5 @@
-﻿.root {
+﻿@import 'src/variables';
+.root {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +17,7 @@
 
 .icon {
   display: block;
-  color: map-get($colors, blue);
+  color: blue;
   @include set-colors-theme;
 }
 

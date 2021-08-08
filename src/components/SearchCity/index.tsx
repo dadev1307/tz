@@ -18,8 +18,7 @@ const SearchCity = () => {
     const [selectedCity, setSelectedCity] = useState<SearchData|null|undefined>(null);
 
     const {theme, setTheme, color} = useTheme();
-    
-    console.log(color);
+
     
     useDebounce(queryCity, 500, () => {
         if(queryCity.length < 3) {
@@ -60,18 +59,18 @@ const SearchCity = () => {
             return <div className={s.loader}><Loader /></div>
         }
         if(listQuery.length) {
-            return <div className={s.resultList}>{(listQuery.slice(0, 5).map(item => <span onClick={(e) => handleSelectedCity(item)} key={item.id}>{item.name}</span>))}</div>
+            return <div className={s.resultList}>{(listQuery.slice(0, 5).map(item => <span key={item.id} onClick={(e) => handleSelectedCity(item)}>{item.name}</span>))}</div>
         }
         if(!listQuery.length && isShowList) {
             return <p className={s.notFound}>Ничего не найдено</p>
         }
+        return <div className={s.loader}><Loader /></div>
         
     }
     
 
     return (
         <div className={s.root}>
-
             <div className={s.wrapper}>
                 <p className={s.title}>
                     <ArrowSvg className={cn([s[color]])} />
