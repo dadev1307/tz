@@ -6,7 +6,30 @@ $white: #fff;
 $white07: rgba(255, 255, 255, 0.7);
 $white05: rgba(255, 255, 255, 0.5);
 $white04: rgba(255, 255, 255, 0.4);
+$white015: rgba(255, 255, 255, 0.15);
 $white01: rgba(255, 255, 255, 0.1);
+
+$bgSubstrate: rgba(47, 50, 64, 0.9);
+
+@mixin button {
+  font-family: inherit;
+  width: 120px;
+  height: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $white;
+  border: none;
+  background-color: map-get($colors, blue);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background-color: darken(map-get($colors, blue), 10%);
+  }
+}
 
 
 $colors: (

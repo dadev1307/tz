@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './Weathers.module.scss';
+import Weather from "../Weather";
 
 interface IWeathers {
     classname?: string,
@@ -8,8 +9,8 @@ interface IWeathers {
 
 const Weathers:React.FC<IWeathers> = ({showSettings}) => {
   return (
-    <div className={s.root} onClick={showSettings}>
-      Weathers
+    <div className={s.root}>
+      <Weather />
     </div>
   );
 };

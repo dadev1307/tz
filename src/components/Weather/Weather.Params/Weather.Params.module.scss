@@ -1,0 +1,19 @@
+﻿@import "src/variables";
+
+.root {
+  background: $bgSubstrate;
+  padding: 7px;
+  border-radius: 20px;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.icon {
+  color: map-get($colors, blue);
+  @include set-colors-theme;
+}
+.value {
+  font-size: 12px;
+}

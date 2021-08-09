@@ -47,6 +47,11 @@ export const searchCity = async (city: string):Promise<SearchData[]> => {
     return await fetch(url).then(res=> res.json());
 }
 
+export const getWither = async (geo: string): Promise<WeatherResult> => {
+    let url = `${WEATHER_BASE}?key=${KEY}&lang=ru&q=${geo}`;
+    return await fetch(url).then(res => res.json()).then(res => AdapterWeatherDataToWeatherResult(res));
+}
+
 export default async (city: string | null):Promise<WeatherResult> => {
     let URL = WEATHER_BASE;
     

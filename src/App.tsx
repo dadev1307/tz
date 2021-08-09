@@ -7,6 +7,7 @@ import {Error} from './interface/Error';
 import useLocalStorage from './hook/useLocalStorage';
 import WindowLoader from "./components/WindowLoader";
 import {ThemeProvider} from "./context/themeContext";
+import {getWither, searchCity} from "./utils/fetchHelpers";
 
 
 const SearchCity = lazy(() => import('./components/SearchCity'));
@@ -30,7 +31,13 @@ const App = () => {
     useEffect(() => {
         if (!settings) {
             getGeoPosition().then(result => {
-                setCurrentMode(DisplayMode.WEATHERS);
+                console.log(result);
+                const {latitude, longitude} = result.coords;
+                getWither(`${latitude},${longitude}`).then(res => {
+                    console.log(res);
+                    setCurrentMode(DisplayMode.WEATHERS);
+                })
+                
             }).catch((e) => {
                 setError({
                     icon: 'warning',

@@ -17,18 +17,27 @@
 
 .icon {
   display: block;
-  color: blue;
+  color: map-get($colors, blue);
   @include set-colors-theme;
+  margin-bottom: 8px;
 }
 
 .title {
-  display: block;
+  color: $white;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4em;
+  text-align: center;
 }
 
 .text {
-  display: block;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4em;
+  color: $white;
 }
 
 .btn {
-  display: block;
+  margin-top: 15px;
+  @include button;
 }
