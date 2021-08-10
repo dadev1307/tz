@@ -6,35 +6,29 @@ import {WeatherResult} from './interface/weatherResult';
 import {Error} from './interface/Error';
 import useLocalStorage from './hook/useLocalStorage';
 import WindowLoader from "./components/WindowLoader";
-import {ThemeProvider} from "./context/themeContext";
-import {getWither, searchCity} from "./utils/fetchHelpers";
+import {SettingsProvider} from "./context/settingsContext";
+import {getWither} from "./utils/fetchHelpers";
 
 
 const SearchCity = lazy(() => import('./components/SearchCity'));
 const Settings = lazy(() => import('./components/Settings'));
 const Weathers = lazy(() => import('./components/Weathers'));
 const ErrorModal = lazy(() => import('./components/ErrorModal'));
+const Weather = lazy(() => import('./components/Weather'));
 
 const App = () => {
     const [settings, setSettings] = useLocalStorage();
     const [wither, setWither] = useState<WeatherResult | null>(null);
     const [currentMode, setCurrentMode] = useState<DisplayMode>(DisplayMode.LOADER);
     const [error, setError] = useState<Error | null>(null);
-
-    const components = {
-        [DisplayMode.LOADER]: WindowLoader,
-        [DisplayMode.SEARCH]: SearchCity,
-        [DisplayMode.SETTINGS]: Settings,
-        [DisplayMode.WEATHERS]: Weathers
-    }
+    
 
     useEffect(() => {
         if (!settings) {
             getGeoPosition().then(result => {
-                console.log(result);
                 const {latitude, longitude} = result.coords;
                 getWither(`${latitude},${longitude}`).then(res => {
-                    console.log(res);
+                    setWither(res);
                     setCurrentMode(DisplayMode.WEATHERS);
                 })
                 
@@ -58,18 +52,20 @@ const App = () => {
     }, []);
 
     return (
-        <ThemeProvider>
+        <SettingsProvider>
             <Suspense fallback={<WindowLoader/>}>
                 <div className={s.root}>
                     {error && <ErrorModal error={error}/>}
-                    {React.createElement(components[currentMode], {
-                        showSettings() {
-                            setCurrentMode(DisplayMode.SETTINGS)
-                        }
-                    })}
+                    {currentMode === DisplayMode.WEATHERS && 
+                    <Weathers showSettings={() => {setCurrentMode(DisplayMode.SETTINGS)}}>
+                        <Weather data={wither} />
+                    </Weathers>}
+                    
+                    {currentMode === DisplayMode.SETTINGS && <Settings closeSettings={()=>{setCurrentMode(DisplayMode.WEATHERS)}} />}
+                    {currentMode === DisplayMode.SEARCH && <SearchCity />}
                 </div>
             </Suspense>
-        </ThemeProvider>
+        </SettingsProvider>
     );
 };
 

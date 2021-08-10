@@ -2,16 +2,21 @@
 
 .root {
   background: $bgSubstrate;
-  padding: 7px;
+  padding: 7px 20px;
   border-radius: 20px;
 }
 .item {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  &:not(:last-child) {
+    margin-right: 16px;
+  }
 }
 .icon {
   color: map-get($colors, blue);
+  margin-bottom: 2px;
+  width: 18px;
   @include set-colors-theme;
 }
 .value {

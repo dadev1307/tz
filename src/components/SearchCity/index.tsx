@@ -8,7 +8,7 @@ import {ReactComponent as ArrowSvg} from "./assets/arrow.svg";
 import {ReactComponent as SearchSvg} from "./assets/search.svg";
 import {ReactComponent as ArrowRightSvg} from "./assets/arrow-right.svg";
 import Loader from "../Loader";
-import {useTheme} from "../../context/themeContext";
+import {useSettings} from "../../context/settingsContext";
 
 const SearchCity = () => {
     const [queryCity, setQueryCity] = useState<string>('');
@@ -17,7 +17,7 @@ const SearchCity = () => {
     const [isLoader, setIsLoader] = useState<boolean>(true);
     const [selectedCity, setSelectedCity] = useState<SearchData|null|undefined>(null);
 
-    const {theme, setTheme, color} = useTheme();
+    const {theme, setSettings, color} = useSettings();
 
     
     useDebounce(queryCity, 500, () => {

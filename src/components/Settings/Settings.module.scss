@@ -4,4 +4,15 @@
   border-radius: 30px;
   width: 360px;
   height: 130px;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  width: 20px;
+  opacity: 0.7;
+  color: $white;
 }

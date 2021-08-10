@@ -2,11 +2,21 @@ export interface WeatherResult {
   city: string,
   tempC: number,
   tempF: number,
+  lat: number,
+  lon: number,
   condition: Condition,
   wind: Wind,
   preacure: Preacure,
   humidity: number,
-  hour: WeatherHour[]
+  hour: WeatherHour[],
+  params: ParamItem[],
+}
+
+export interface ParamItem {
+  iconName: string,
+  name: string,
+  units: string,
+  value: string | number
 }
 
 interface Condition {
