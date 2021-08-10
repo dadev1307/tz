@@ -63,6 +63,7 @@ const App = () => {
                     
                     {currentMode === DisplayMode.SETTINGS && <Settings closeSettings={()=>{setCurrentMode(DisplayMode.WEATHERS)}} />}
                     {currentMode === DisplayMode.SEARCH && <SearchCity />}
+                    {currentMode === DisplayMode.LOADER && <WindowLoader />}
                 </div>
             </Suspense>
         </SettingsProvider>

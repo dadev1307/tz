@@ -4,7 +4,7 @@ import s from './ErrorModal.module.scss';
 import {Error} from "../../interface/Error";
 import {ReactComponent as WarningSvg} from "./assets/warning.svg";
 import {ReactComponent as ErrorSvg} from "./assets/error.svg";
-import { useTheme } from '../../context/themeContext';
+import { useSettings } from '../../context/settingsContext';
 
 
 interface IErrorModal {
@@ -20,7 +20,7 @@ const ErrorModal:React.FC<IErrorModal> = ({error, className}) => {
         btnText,
         handleError
     } = error;
-    const {color, theme} = useTheme();
+    const {color, theme} = useSettings();
     const handleBtnClick = (e:React.MouseEvent<HTMLButtonElement>):void => {
         e.stopPropagation();
         handleError();
