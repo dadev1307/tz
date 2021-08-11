@@ -20,7 +20,7 @@ function AdapterWeatherHour(data: Hour): WeatherHour {
     return wh;
 }
 
-function AdapterWeatherDataToWeatherResult(data: WeatherData): WeatherResult {
+function AdapterWeatherDataToWeatherResult(data: WeatherData, isHour: boolean): WeatherResult {
     const wr: WeatherResult = {
         city: data.location.name,
         tempC: data.current.temp_c,
@@ -39,7 +39,8 @@ function AdapterWeatherDataToWeatherResult(data: WeatherData): WeatherResult {
             inches: data.current.precip_in,
             millimeter: millibarsToMillimeter(data.current.pressure_mb)
         },
-        params: []
+        params: [],
+        isShowHour: isHour
     };
     wr.params = [
         {
@@ -72,22 +73,9 @@ export const searchCity = async (city: string): Promise<SearchData[]> => {
     return await fetch(url).then(res => res.json());
 }
 
-export const getWither = async (geo: string): Promise<WeatherResult> => {
+export const getWither = async (geo: string, isHour: boolean = false): Promise<WeatherResult> => {
     let url = `${WEATHER_BASE}?key=${KEY}&lang=ru&q=${geo}`;
-    return await fetch(url).then(res => res.json()).then(res => AdapterWeatherDataToWeatherResult(res));
+    return await fetch(url).then(res => res.json()).then(res => AdapterWeatherDataToWeatherResult(res, isHour));
 }
 
-export default async (city: string | null): Promise<WeatherResult> => {
-    let URL = WEATHER_BASE;
-
-    let weatherData = await fetch(URL).then(data => {
-        if (data.ok) {
-            return data.json();
-        }
-        throw new Error('City not found');
-    }).then(result => result);
-
-    return AdapterWeatherDataToWeatherResult(weatherData);
-
-}
 

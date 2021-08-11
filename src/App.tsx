@@ -49,7 +49,7 @@ const App = () => {
     
     const autoSearchCitys = () => {
         Promise.all(settingsStorage.citys.map((city: ICity) => {
-            return getWither(`${city.lat},${city.lon}`);
+            return getWither(`${city.lat},${city.lon}`, city.isHour);
         })).then((res) => {
             // @ts-ignore
             setWithers(res);

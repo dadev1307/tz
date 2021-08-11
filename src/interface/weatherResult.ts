@@ -10,6 +10,7 @@ export interface WeatherResult {
   humidity: number,
   hour: WeatherHour[],
   params: ParamItem[],
+  isShowHour: boolean
 }
 
 export interface ParamItem {
