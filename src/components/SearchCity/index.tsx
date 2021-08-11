@@ -10,7 +10,11 @@ import {ReactComponent as ArrowRightSvg} from "./assets/arrow-right.svg";
 import Loader from "../Loader";
 import {useSettings} from "../../context/settingsContext";
 
-const SearchCity = () => {
+interface ISearchCity extends React.HTMLAttributes<HTMLDivElement>{
+    getCityWeather: (cityName: string) => void,
+}
+
+const SearchCity:React.FC<ISearchCity> = ({getCityWeather}) => {
     const [queryCity, setQueryCity] = useState<string>('');
     const [listQuery, setListQuery] = useState<SearchData[]>([])
     const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -18,7 +22,10 @@ const SearchCity = () => {
     const [selectedCity, setSelectedCity] = useState<SearchData|null|undefined>(null);
 
     const {theme, setSettings, color} = useSettings();
-
+    
+    const getSearchWeather = () => {
+        getCityWeather(queryCity);
+    }
     
     useDebounce(queryCity, 500, () => {
         if(queryCity.length < 3) {
@@ -80,7 +87,7 @@ const SearchCity = () => {
                     <div className={s.search}>
                         <SearchSvg className={cn([s.searchSvg,{[s.active]: isShowSearchSvg}])} />
                         <input className={s.input} type='text' value={queryCity} onInput={handleQueryCity} onFocus={focusInput} onBlur={blurInput}/>
-                        <ArrowRightSvg className={cn([s.arrowRightSvg, {[s.active]: isShowArrowRight}])}  />
+                        <ArrowRightSvg onClick={getSearchWeather} className={cn([s.arrowRightSvg, {[s.active]: isShowArrowRight}])}  />
                     </div>
                     <div className={cn([s.resultWrapper, {[s.active]: isShowList}])}>
                         {showListByState()}

@@ -1,5 +1,5 @@
 ﻿import {createContext, useContext, useState} from "react";
-
+import useLocalStorage from "../hook/useLocalStorage";
 enum Colors {
     BLUE = 'blue',
     GREEN = 'green',
@@ -18,15 +18,15 @@ enum UnitsTemp {
     'F'
 }
 
-interface ICity {
-    name: string,
-    lat: number | undefined,
-    lon: number | undefined,
+export interface ICity {
+    name?: string,
+    lat?: number,
+    lon?: number,
     isHour: boolean,
 }
 
 
-type State = {
+export type SettingsState = {
     theme: Themes,
     color: Colors,
     unitsTemp: UnitsTemp,
@@ -35,21 +35,21 @@ type State = {
     setSettings: React.Dispatch<any>
 };
 
-type ThemeProviderProps = { children: React.ReactNode };
+type SettingsProviderProps = { children: React.ReactNode };
 
-const SettingContext = createContext<State | undefined>(undefined);
+const SettingContext = createContext<SettingsState | undefined>(undefined);
 
 
 function useSettings() {
     const context = useContext(SettingContext);
     if (!context) {
-        throw new Error('useTheme must be used within a ThemeProvide');
+        throw new Error('useTheme must be used within a SettingsProvide');
     }
     return context;
 }
 
-function SettingsProvider({children}: ThemeProviderProps) {
-    const [theme, setSettings] = useState<State>({
+function SettingsProvider({children}: SettingsProviderProps) {
+    const [settings, setSettings] = useState<SettingsState>({
         theme: Themes.BLACK,
         color: Colors.BLUE,
         unitsTemp: UnitsTemp.C,
@@ -58,9 +58,19 @@ function SettingsProvider({children}: ThemeProviderProps) {
         setSettings: () => {
         }
     });
+    
+    const [set, setSet] = useLocalStorage();
+    const newSetSettings = (data: SettingsState) => {
+        setSet(data);
+        setSettings(data);
+    }
+    
+    if(!set) {
+        setSet(settings);
+    }
 
     return (
-        <SettingContext.Provider value={{...theme, setSettings: setSettings}}>
+        <SettingContext.Provider value={{...settings, setSettings: newSetSettings}}>
             {children}
         </SettingContext.Provider>
     )

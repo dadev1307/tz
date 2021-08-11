@@ -10,13 +10,15 @@ interface IWeathers {
 }
 
 const Weathers: React.FC<IWeathers> = ({showSettings, children}) => {
-    const { isFullMode, setSettings } = useSettings();
+    const settings = useSettings();
+    const {isFullMode, setSettings} = settings;
+    
     const iconNameMode = (): string => {
         return isFullMode ? 'minimize' : 'maximize';
     }
     
     const handleFullMode = ():void => {
-        setSettings({isFullMode: !isFullMode});
+        setSettings({...settings, isFullMode: !isFullMode});
     }
     
     return (

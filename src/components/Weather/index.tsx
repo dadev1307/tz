@@ -10,11 +10,23 @@ import {useSettings} from "../../context/settingsContext";
 import { getIconByCode } from '../../utils/utils';
 interface IWeather {
     data: WeatherResult | null,
+    idx: number
 }
 
-const Weather: React.FC<IWeather> = ({data}) => {
-    const [isShowHour, setIsShowHour] = useState<boolean>(false);
-    const {isFullMode} = useSettings();
+const Weather: React.FC<IWeather> = ({data, idx}) => {
+    const settings = useSettings();
+    const {isFullMode, citys, setSettings} = settings;
+    const [isShowHour, setIsShowHour] = useState<boolean>(citys[idx].isHour);
+    
+    const handleCityHour = () => {
+        setIsShowHour((oldValue) => {
+            citys[idx].isHour = !oldValue;
+            setSettings({...settings, citys: citys});
+            return !oldValue;
+        });
+        
+    }
+    
     return (
         <div className={cn(s.root,{[s.full]: isFullMode})}>
             {data ?
@@ -34,7 +46,7 @@ const Weather: React.FC<IWeather> = ({data}) => {
                     <WeatherHour className={cn(s.hour,{[s.active]: isShowHour && isFullMode})} items={data.hour} />
                     
                     <div className={cn([s.btnShowHour, {[s.active]: isShowHour}])}
-                         onClick={() => setIsShowHour(!isShowHour)}>
+                         onClick={handleCityHour}>
                         <Icon className={s.btnShowHourIcon} name={'btnShowHour'} width={10} opacity={0.7}/>
                     </div>
                 </> :
