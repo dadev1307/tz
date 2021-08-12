@@ -1,0 +1,23 @@
+﻿@import 'src/variables';
+.root {
+  display: grid;
+  padding: 15px;
+  grid-row-gap: 12px;
+  background: $bgSubstrate;
+  border-radius: 20px;
+}
+.title {
+  color: $white07;
+  font-size: 14px;
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  grid-column-gap: 4px;
+}
+.icon {
+  align-self: flex-start;
+  width: 14px;
+  color: map-get($colors, blue);
+  opacity: 0.7;
+  @include set-colors-theme;
+}

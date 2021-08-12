@@ -1,0 +1,34 @@
+﻿@import 'src/variables';
+
+.root {
+  display: flex;
+  align-items: center;
+  background-color: $bgSubstrateLight;
+  border-radius: 30px;
+  font-size: 15px;
+  color: $white;
+  font-weight: 600;
+  line-height: 1;
+  padding: 10px 15px;
+}
+
+.menu {
+  width: 16px;
+  opacity: 0.8;
+  margin-right: 8px;
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.basket {
+  margin-left: auto;
+  width: 14px;
+  cursor: pointer;
+  color: $white;
+  transition: color 0.3s ease-in-out;
+  &:hover {
+    color: #F55C5C;
+  }
+}

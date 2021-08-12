@@ -1,4 +1,4 @@
-﻿import React, {lazy, Suspense, useEffect, useState} from 'react';
+﻿import React, {lazy, Suspense, useState} from 'react';
 import s from './Weather.module.scss';
 import cn from 'classnames';
 import Icon from "./Weather.Icon";
@@ -18,15 +18,13 @@ const Weather: React.FC<IWeather> = ({data, idx}) => {
     const {isFullMode, citys, setSettings} = settings;
     const [isShowHour, setIsShowHour] = useState<boolean>(data?.isShowHour||false);
     
-    useEffect(() => {
-        console.log(1);
-    },[isShowHour])
+    
     
     const handleCityHour = () => {
-        setIsShowHour((oldValue) => {
-            return !oldValue;
-        });
-        
+        const isShow = !isShowHour;
+        setIsShowHour(isShow);
+        citys[idx].isHour = isShow;
+        setSettings({...settings, citys: citys});
     }
     
     return (

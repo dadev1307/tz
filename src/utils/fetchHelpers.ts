@@ -12,8 +12,8 @@ const SEARCH_BASE = 'http://api.weatherapi.com/v1/search.json';
 function AdapterWeatherHour(data: Hour): WeatherHour {
     const wh: WeatherHour = {
         condition: data.condition,
-        tempC: data.temp_c,
-        tempF: data.temp_f,
+        tempC: Math.round(data.temp_c),
+        tempF: Math.round(data.temp_f),
         time: data.time,
         timeEpoch: data.time_epoch
     }
@@ -23,8 +23,8 @@ function AdapterWeatherHour(data: Hour): WeatherHour {
 function AdapterWeatherDataToWeatherResult(data: WeatherData, isHour: boolean): WeatherResult {
     const wr: WeatherResult = {
         city: data.location.name,
-        tempC: data.current.temp_c,
-        tempF: data.current.temp_f,
+        tempC: Math.round(data.current.temp_c),
+        tempF: Math.round(data.current.temp_f),
         lat: data.location.lat,
         lon: data.location.lon,
         condition: data.current.condition,

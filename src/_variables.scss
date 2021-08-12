@@ -9,7 +9,27 @@ $white04: rgba(255, 255, 255, 0.4);
 $white015: rgba(255, 255, 255, 0.15);
 $white01: rgba(255, 255, 255, 0.1);
 
-$bgSubstrate: rgba(47, 50, 64, 0.9);
+$bgSubstrateLight: #474A5D;
+
+$bgSubstrate: #2F3240;
+
+@mixin button-add {
+  display: grid;
+  align-items: center;
+  cursor: pointer;
+  grid-column-gap: 8px;
+  grid-template-columns: min-content min-content;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  outline: none;
+  background-color: inherit;
+  color: map-get($colors, blue);
+  @include set-colors-theme;
+  svg {
+    width: 24px;
+  }
+}
 
 @mixin button {
   font-family: inherit;

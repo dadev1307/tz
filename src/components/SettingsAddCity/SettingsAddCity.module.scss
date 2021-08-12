@@ -1,0 +1,11 @@
+﻿@import "src/variables";
+.root {
+  display: flex;
+  margin-top: 10px;
+  
+}
+
+.btnAdd {
+  @include button-add();
+  margin: 0 auto;
+}
