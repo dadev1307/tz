@@ -1,0 +1,36 @@
+﻿@import 'src/variables';
+.root {
+  background: $darkMainBg;
+  border-radius: 30px;
+  width: 360px;
+  padding: 15px 20px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.wrapper {
+  background: #2F3240;
+  border-radius: 30px;
+  padding: 15px;
+  display: block;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-weight: 500;
+
+  svg {
+    color: map-get($colors, blue);
+    margin-right: 4px;
+    align-self: flex-start;
+    @include set-colors-theme;
+  }
+}

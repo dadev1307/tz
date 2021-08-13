@@ -8,9 +8,10 @@ import useLocalStorage from './hook/useLocalStorage';
 import WindowLoader from "./components/WindowLoader";
 import {ICity, useSettings} from "./context/settingsContext";
 import {getWither} from "./utils/fetchHelpers";
+import SearchCity from "./components/SearchCity";
 
 
-const SearchCity = lazy(() => import('./components/SearchCity'));
+const SearchCityWindow = lazy(() => import('./components/SearchCityWindow'));
 const Settings = lazy(() => import('./components/Settings'));
 const Weathers = lazy(() => import('./components/Weathers'));
 const ErrorModal = lazy(() => import('./components/ErrorModal'));
@@ -102,7 +103,7 @@ const App = () => {
                 {currentMode === DisplayMode.SETTINGS && <Settings closeSettings={() => {
                     setCurrentMode(DisplayMode.WEATHERS)
                 }}/>}
-                {currentMode === DisplayMode.SEARCH && <SearchCity getCityWeather={getCityWeather}/>}
+                {currentMode === DisplayMode.SEARCH && <SearchCityWindow><SearchCity getCityWeather={getCityWeather}/></SearchCityWindow>}
                 {currentMode === DisplayMode.LOADER && <WindowLoader/>}
             </div>
         </Suspense>
