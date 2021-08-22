@@ -16,6 +16,7 @@
     'react/prop-types': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
     'no-console': 'error',
+    "react/jsx-curly-brace-presence": 0,
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx', '.ts', '.js'] }],
     'import/extensions': [
       'error',

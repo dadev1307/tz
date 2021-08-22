@@ -16,6 +16,8 @@ const Weathers: React.FC<IWeathers> = ({showSettings, children}) => {
     const iconNameMode = (): string => {
         return isFullMode ? 'minimize' : 'maximize';
     }
+
+    console.log(children);
     
     const handleFullMode = ():void => {
         setSettings({...settings, isFullMode: !isFullMode});

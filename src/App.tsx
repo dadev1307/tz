@@ -1,7 +1,7 @@
 ﻿import React, {lazy, Suspense, useEffect, useState} from 'react';
 import s from './App.module.scss';
 import {DisplayMode} from './interface/displayMode';
-import {getGeoPosition} from './utils/utils';
+import { citysWeatherToContextCitys, getGeoPosition } from './utils/utils';
 import {WeatherResult} from './interface/weatherResult';
 import {Error} from './interface/Error';
 import useLocalStorage from './hook/useLocalStorage';
@@ -24,13 +24,30 @@ const App = () => {
     const [error, setError] = useState<Error | null>(null);
     const settings = useSettings();
 
+    const addCityWeathers = (city: WeatherResult) => {
+        const isCity = withers.find((item) => item.id === city.id);
+        if(isCity) {
+            setError({
+                icon: 'warning',
+                title: 'Место уже в списке',
+                text: 'Местоположение которое вы ищите, уже находится в списке',
+                btnText: 'Ок',
+                handleError: () => {
+                    setError(null);
+                }
+            })
+            return;
+        }
+        settings.setSettings({...settings, citys: citysWeatherToContextCitys([...withers, city])});
+        setWithers([...withers, city]);
+    }
+
     const autoSearchCurrentPosition = () => {
         getGeoPosition().then(result => {
             const {latitude, longitude} = result.coords;
 
             getWither(`${latitude},${longitude}`).then((res) => {
-                setWithers([res]);
-                settings.setSettings({...settings, citys: [{name: res.city, lat: latitude, lon: longitude, isHour: false}]})
+                addCityWeathers(res);
                 setCurrentMode(DisplayMode.WEATHERS);
             })
 
@@ -71,11 +88,42 @@ const App = () => {
     
     const getCityWeather = (nameCity: string) => {
         getWither(nameCity).then((res) => {
-            settings.setSettings({...settings, citys: [...settings.citys, {name: res.city, lat: res.lat, lon: res.lon, isHour: false}]})
+            settings.setSettings({...settings, citys: citysWeatherToContextCitys([...withers, res])})
             setWithers([...withers, res]);
             setCurrentMode(DisplayMode.WEATHERS);
         })
     }
+
+    const closeSettings = () => {
+        if(withers.length){
+            setCurrentMode(DisplayMode.WEATHERS);
+        }else {
+            setCurrentMode(DisplayMode.SEARCH);
+        }
+
+    }
+
+    const addCity = (cityName: string) => {
+        getWither(cityName).then(res => {
+            addCityWeathers(res);
+        }).catch(e => {
+            setError({
+                icon: 'error',
+                title: 'Произошла ошибка :(',
+                text: 'Не найдено подходящего местоположения',
+                btnText: 'Закрыть',
+                handleError: () => {
+                    setError(null);
+                }
+            })
+        })
+    }
+    const removeCity = (id: string) => {
+        const weathersCitys = withers.filter((item) => item.id !== id);
+        settings.setSettings({...settings, citys: citysWeatherToContextCitys(weathersCitys)});
+        setWithers(weathersCitys);
+    }
+
 
     useEffect(() => {
         if(settingsStorage) {
@@ -89,6 +137,9 @@ const App = () => {
 
     }, []);
 
+
+
+
     return (
         <Suspense fallback={<WindowLoader/>}>
             <div className={s.root}>
@@ -97,12 +148,12 @@ const App = () => {
                 <Weathers showSettings={() => {
                     setCurrentMode(DisplayMode.SETTINGS)
                 }}>
-                    {withers && withers.map((wither, idx) => <Weather key={`${wither.lat}${wither.lon}`} idx={idx} data={wither}/>)}
+                    {withers && withers.map((wither, idx) => <Weather key={wither.id} idx={idx} data={wither}/>)}
+                    <div className={'ss'} draggable >123</div>
+                    <div>144</div>
                 </Weathers>}
 
-                {currentMode === DisplayMode.SETTINGS && <Settings closeSettings={() => {
-                    setCurrentMode(DisplayMode.WEATHERS)
-                }}/>}
+                {currentMode === DisplayMode.SETTINGS && <Settings closeSettings={closeSettings} addCity={addCity} removeCity={removeCity} />}
                 {currentMode === DisplayMode.SEARCH && <SearchCityWindow><SearchCity getCityWeather={getCityWeather}/></SearchCityWindow>}
                 {currentMode === DisplayMode.LOADER && <WindowLoader/>}
             </div>

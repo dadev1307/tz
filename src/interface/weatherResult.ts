@@ -1,4 +1,5 @@
 export interface WeatherResult {
+  id: string,
   city: string,
   tempC: number,
   tempF: number,

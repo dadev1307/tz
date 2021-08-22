@@ -1,8 +1,8 @@
 @import 'src/variables';
 .root {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   position: relative;
+  grid-row-gap: 15px;
 }
 .icons {
   position: absolute;

@@ -12,17 +12,21 @@ interface ISearchCity extends React.HTMLAttributes<HTMLDivElement> {
     getCityWeather: (cityName: string) => void,
 }
 
-const SearchCity: React.FC<ISearchCity> = ({getCityWeather}) => {
+const SearchCity: React.FC<ISearchCity> = ({getCityWeather, className}) => {
     const [queryCity, setQueryCity] = useState<string>('');
     const [listQuery, setListQuery] = useState<SearchData[]>([])
     const [isFocus, setIsFocus] = useState<boolean>(false);
     const [isLoader, setIsLoader] = useState<boolean>(true);
     const [selectedCity, setSelectedCity] = useState<SearchData | null | undefined>(null);
 
-
+    const resetValue = () => {
+        setQueryCity('');
+        setSelectedCity(null);
+    }
 
     const getSearchWeather = () => {
         getCityWeather(queryCity);
+        resetValue();
     }
 
     useDebounce(queryCity, 500, () => {
@@ -46,10 +50,11 @@ const SearchCity: React.FC<ISearchCity> = ({getCityWeather}) => {
         setSelectedCity(item);
     }
 
+
+
     const focusInput = () => {
         setIsFocus(true);
-        setQueryCity('');
-        setSelectedCity(null);
+        resetValue();
     }
     const blurInput = () => {
         setIsFocus(false);
@@ -61,7 +66,7 @@ const SearchCity: React.FC<ISearchCity> = ({getCityWeather}) => {
 
     const showListByState = () => {
         if (isLoader) {
-            return <div className={s.loader}><Loader/></div>
+            return <div className={cn(s.loader, className)}><Loader/></div>
         }
         if (listQuery.length) {
             return <div className={s.resultList}>{(listQuery.slice(0, 5).map(item => <span key={item.id}
@@ -76,7 +81,7 @@ const SearchCity: React.FC<ISearchCity> = ({getCityWeather}) => {
 
 
     return (
-        <div className={cn([s.inputWrapper, {[s.active]: isShowList}])}>
+        <div className={cn([s.inputWrapper, {[s.active]: isShowList}, className])}>
             <div className={s.search}>
                 <SearchSvg className={cn([s.searchSvg, {[s.active]: isShowSearchSvg}])}/>
                 <input className={s.input} type='text' value={queryCity} onInput={handleQueryCity} onFocus={focusInput}

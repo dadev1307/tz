@@ -1,3 +1,6 @@
+import { WeatherResult } from '../interface/weatherResult';
+import { ICity } from '../context/settingsContext';
+
 const condition:ICondition = {
     "1000": "sunny",
     "1003": "cloudy",
@@ -69,7 +72,7 @@ export const getTime = (date: string | Date): string => {
     const h = d.getHours();
     const m = d.getMinutes();
 
-    return `${h < 10 ? '0' + h : h}:${m < 10 ? '0' + m : m}`;
+    return `${h < 10 ? `0${h}` : h}:${m < 10 ? `0${m}` : m}`;
 }
 
 export const getGeoPosition = (): Promise<GeolocationPosition> => {
@@ -85,4 +88,16 @@ export const getGeoPosition = (): Promise<GeolocationPosition> => {
 
 export const getIconByCode = (code: number):string => {
     return condition[code]
+}
+
+export const citysWeatherToContextCitys = (citys: WeatherResult[]):ICity[] => {
+    return citys.map((city) => {
+        return {
+            id: city.id,
+            name: city.city,
+            lat: city.lat,
+            lon: city.lon,
+            isHour: city.isShowHour
+        }
+    })
 }

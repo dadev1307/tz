@@ -22,6 +22,7 @@ function AdapterWeatherHour(data: Hour): WeatherHour {
 
 function AdapterWeatherDataToWeatherResult(data: WeatherData, isHour: boolean): WeatherResult {
     const wr: WeatherResult = {
+        id: `${data.location.localtime}x${data.location.lon}`,
         city: data.location.name,
         tempC: Math.round(data.current.temp_c),
         tempF: Math.round(data.current.temp_f),
@@ -69,13 +70,13 @@ function AdapterWeatherDataToWeatherResult(data: WeatherData, isHour: boolean): 
 
 
 export const searchCity = async (city: string): Promise<SearchData[]> => {
-    let url = `${SEARCH_BASE}?key=${KEY}&lang=ru&q=${city}`;
-    return await fetch(url).then(res => res.json());
+    const url = `${SEARCH_BASE}?key=${KEY}&lang=ru&q=${city}`;
+    return fetch(url).then(res => res.json());
 }
 
 export const getWither = async (geo: string, isHour: boolean = false): Promise<WeatherResult> => {
-    let url = `${WEATHER_BASE}?key=${KEY}&lang=ru&q=${geo}`;
-    return await fetch(url).then(res => res.json()).then(res => AdapterWeatherDataToWeatherResult(res, isHour));
+    const url = `${WEATHER_BASE}?key=${KEY}&lang=ru&q=${geo}`;
+    return fetch(url).then(res => res.json()).then(res => AdapterWeatherDataToWeatherResult(res, isHour));
 }
 
 

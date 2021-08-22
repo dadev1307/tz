@@ -1,11 +1,47 @@
 ﻿@import "src/variables";
+
 .root {
   display: flex;
-  margin-top: 10px;
-  
 }
 
 .btnAdd {
   @include button-add();
   margin: 0 auto;
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  height: 40px;
+  display: none;
+  &.active {
+    animation: test 0.3s ease-in-out;
+    opacity: 1;
+    position: relative;
+    display: flex;
+  }
+}
+
+.search {
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  position: absolute;
+  display: none;
+
+  &.active {
+    display: block;
+    animation: test 0.3s ease-in-out;
+    opacity: 1;
+    position: relative;
+  }
+}
+
+@keyframes test {
+  0% {
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+
 }
