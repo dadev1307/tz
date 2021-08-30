@@ -9,13 +9,13 @@ interface ISettingsCitysItem extends React.HTMLAttributes<HTMLDivElement>{
     removeCity: (id:string) => void
 }
 
-const SettingsCitysItem:React.FC<ISettingsCitysItem> = ({className, city, removeCity, draggable}) => {
+const SettingsCitysItem:React.FC<ISettingsCitysItem> = ({className, city, removeCity}) => {
   const handleRemoveCity = () => {
     removeCity(city.id);
   }
     return (
-        <div className={cn(s.root, className)} draggable={draggable}>
-            <Icon name={'menu'} className={s.menu} />
+        <div className={cn(s.root, className)}>
+            <Icon name={'menu'} className={cn(s.menu, 'handle')} />
             {city.name}
             <Icon name={'trash'} className={s.basket} onClick={handleRemoveCity} />
         </div>
